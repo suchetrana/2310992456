@@ -8,6 +8,7 @@ import { FileNotFoundError, InternalServerError } from "../utils/errors/app.erro
  * @param res sending response
  * @param next calling next middleware fn to handle error
  */
+
 // case 1: synchronous error
 
 export const pingErrHandler = () => {
