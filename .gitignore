@@ -1,3 +1,8 @@
 node_modules/
 dist/
 .env
+personal.config.json
+scripts/*.log
+notification_app_be/.env
+notification_app_fe/.env
+logging_middleware/.env

@@ -1,4 +1,5 @@
 import { runtimeConfig } from "../config/runtime";
+import { ensureAuthToken } from "./auth.service";
 import { safeLog } from "../utils/safe-log";
 
 export type NotificationItem = {
@@ -34,7 +35,8 @@ function buildQuery(params: NotificationQuery): string {
 export async function fetchNotifications(
   params: NotificationQuery
 ): Promise<NotificationPage> {
-  if (!runtimeConfig.token) {
+  const token = await ensureAuthToken();
+  if (!token) {
     return { ok: false, items: [], hasNext: false, error: "Missing token" };
   }
 
@@ -47,7 +49,7 @@ export async function fetchNotifications(
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${runtimeConfig.token}`
+        Authorization: `Bearer ${token}`
       }
     });
 

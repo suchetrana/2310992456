@@ -8,5 +8,13 @@ export default defineConfig({
   },
   preview: {
     port: 3000
+  },
+  optimizeDeps: {
+    include: ["logging-middleware"]
+  },
+  build: {
+    commonjsOptions: {
+      include: [/logging_middleware/, /node_modules/]
+    }
   }
 });

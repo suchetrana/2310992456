@@ -1,31 +1,57 @@
-## Steps to setup the starter template
+## Full Stack Setup
 
-1. Clone the project
+### 1) Personal config
+Fill in [personal.config.json](personal.config.json) with your values:
+- `accessCode`, `rollNo`, `githubUsername`, `mobileNo`
 
+Then register and authenticate:
 ```
-git clone https://github.com/suchetrana/TypeScript-Express.git <ProjectName>
-```
-
-2. Move in to the folder structure
-
-```
-cd <ProjectName>
+node scripts/register-auth.cjs
 ```
 
-3. Install npm dependencies
-
+### 2) Build logging middleware
 ```
-npm i
-```
-
-4. Create a new .env file in the root directory and add the `PORT` env variable
-
-```
-echo PORT=3000 >> .env
+npm --prefix logging_middleware install
+npm --prefix logging_middleware run build
 ```
 
-5. Start the express server
+### 3) Backend (notification_app_be)
+```
+npm --prefix notification_app_be install
+npm --prefix notification_app_be run dev
+```
 
+Backend runs on `http://localhost:3001`.
+
+### 4) Frontend (notification_app_fe)
+Sync the frontend .env with your token:
 ```
-npm run dev
+node scripts/sync-frontend-env.cjs
 ```
+
+Install and run the frontend:
+```
+npm --prefix notification_app_fe install
+npm --prefix notification_app_fe run dev
+```
+
+Frontend runs on `http://localhost:3000`.
+
+The frontend can auto-create and store the auth token in browser storage if
+`VITE_AUTH_*` fields are set in [notification_app_fe/.env](notification_app_fe/.env).
+
+### 5) Stage 6 output
+Generate the priority inbox output file:
+```
+node scripts/priority-inbox.cjs
+```
+
+The output is written to [artifacts/stage6_output.json](artifacts/stage6_output.json).
+
+### 6) API smoke test + auth check
+Run the API test script to verify notifications, logs, and auth:
+```
+node scripts/test-apis.cjs
+```
+
+Results are saved to [artifacts/api-test.json](artifacts/api-test.json).
